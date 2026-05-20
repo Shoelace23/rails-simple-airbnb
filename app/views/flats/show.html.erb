@@ -1,0 +1,94 @@
+<% if @flat.picture_url.present? %>
+  <div style="height: 50vh; background-image: url('<%= @flat.picture_url %>'); background-size: cover; background-position: center;" class="mb-5"></div>
+<% else %>
+  <div style="height: 50vh; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center;" class="mb-5">
+    <i class="fa-solid fa-image fa-5x text-muted opacity-25"></i>
+  </div>
+<% end %>
+
+<div class="container mb-5 pb-5">
+  <div class="row">
+    <div class="col-lg-8 pe-lg-5">
+      <h1 class="fw-bolder display-4 mb-3"><%= @flat.name %></h1>
+      
+      <div class="d-flex align-items-center text-muted mb-4 pb-4 border-bottom fs-5">
+        <i class="fa-solid fa-location-dot me-3 text-primary"></i>
+        <span><%= @flat.address %></span>
+      </div>
+      
+      <div class="d-flex gap-4 mb-5 pb-4 border-bottom">
+        <div class="d-flex align-items-center">
+          <i class="fa-solid fa-house-user fs-3 me-3 text-secondary"></i>
+          <div>
+            <div class="fw-bold fs-5">Entire flat hosted by Owner</div>
+            <div class="text-muted"><%= @flat.number_of_guests %> guests · 1 bedroom · 1 bed · 1 bath</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mb-5 pb-5 border-bottom">
+        <h3 class="fw-bold mb-4">About this space</h3>
+        <p class="fs-5 text-secondary lh-lg mb-0" style="white-space: pre-line;"><%= @flat.description %></p>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <%= link_to flats_path, class: "btn btn-outline-dark rounded-pill px-4 fw-medium" do %>
+          <i class="fa-solid fa-arrow-left me-2"></i>Back to flats
+        <% end %>
+        <div class="d-flex gap-3">
+          <%= link_to edit_flat_path(@flat), class: "btn btn-light rounded-pill px-4 fw-medium text-dark border" do %>
+            <i class="fa-solid fa-pen-to-square me-2"></i>Edit
+          <% end %>
+          <%= link_to flat_path(@flat), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to permanently delete this flat?" }, class: "btn btn-outline-danger rounded-pill px-4 fw-medium" do %>
+            <i class="fa-solid fa-trash-can me-2"></i>Delete
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 mt-5 mt-lg-0">
+      <div class="card shadow-lg border-0 rounded-4 sticky-top" style="top: 2rem;">
+        <div class="card-body p-4 p-xl-5">
+          <div class="d-flex align-items-end mb-4">
+            <span class="fs-2 fw-bolder">€<%= @flat.price_per_night %></span>
+            <span class="text-muted ms-2 pb-1">/ night</span>
+          </div>
+
+          <div class="border rounded-4 mb-4 overflow-hidden">
+            <div class="d-flex border-bottom">
+              <div class="w-50 p-3 border-end">
+                <div class="text-uppercase small fw-bold" style="font-size: 0.7rem;">Check-in</div>
+                <div class="text-muted mt-1">Add date</div>
+              </div>
+              <div class="w-50 p-3">
+                <div class="text-uppercase small fw-bold" style="font-size: 0.7rem;">Checkout</div>
+                <div class="text-muted mt-1">Add date</div>
+              </div>
+            </div>
+            <div class="p-3">
+              <div class="text-uppercase small fw-bold" style="font-size: 0.7rem;">Guests</div>
+              <div class="mt-1"><%= @flat.number_of_guests %> guests</div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary w-100 rounded-4 py-3 fw-bold fs-5 mb-4" style="background: linear-gradient(to right, #E61E4D 0%, #E31C5F 50%, #D70466 100%); border: none;">Reserve</button>
+          <div class="text-center text-muted small mb-4">You won't be charged yet</div>
+
+          <div class="d-flex justify-content-between mb-3 text-secondary">
+            <span class="text-decoration-underline">€<%= @flat.price_per_night %> x 5 nights</span>
+            <span>€<%= @flat.price_per_night * 5 %></span>
+          </div>
+          <div class="d-flex justify-content-between mb-4 pb-4 border-bottom text-secondary">
+            <span class="text-decoration-underline">Service fee</span>
+            <span>€45</span>
+          </div>
+          
+          <div class="d-flex justify-content-between fw-bold fs-5">
+            <span>Total</span>
+            <span>€<%= (@flat.price_per_night * 5) + 45 %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

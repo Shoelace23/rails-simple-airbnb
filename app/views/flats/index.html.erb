@@ -1,0 +1,85 @@
+<div class="container mt-5">
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-6">
+      <h1 class="fw-bolder display-5 mb-0">All our Flats (<%= @flats.count %>)</h1>
+      <p class="text-muted mt-2 fs-5">Find your perfect stay anywhere in the world.</p>
+    </div>
+    <div class="col-md-6 text-end">
+      <%= form_with url: flats_path, method: :get, class: "d-flex justify-content-end" do |f| %>
+        <div class="input-group shadow-sm rounded-pill overflow-hidden" style="max-width: 400px; border: 1px solid #dee2e6;">
+          <span class="input-group-text bg-white border-0 ps-4 pe-2"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+          <%= f.text_field :query, value: params[:query], class: "form-control border-0 shadow-none ps-2", placeholder: "Search for a flat...", style: "min-height: 48px;" %>
+          <%= f.submit "Search", class: "btn btn-primary px-4 fw-medium border-0" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <% @flats.each do |flat| %>
+      <div class="col-md-4 mb-5">
+        <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden position-relative flat-card">
+          <div class="img-wrapper" style="overflow: hidden; height: 240px; background-color: #f8f9fa;">
+            <% if flat.picture_url.present? %>
+              <div style="height: 100%; background-image: url('<%= flat.picture_url %>'); background-size: cover; background-position: center;" class="card-img-top"></div>
+            <% else %>
+              <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-house-chimney fa-4x text-muted opacity-25"></i>
+              </div>
+            <% end %>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title fw-bold text-truncate mb-0" style="max-width: 75%;"><%= flat.name %></h5>
+              <div class="d-flex align-items-center text-dark fw-bold">
+                <i class="fa-solid fa-star text-warning me-1 small"></i> 4.9
+              </div>
+            </div>
+            <p class="card-text text-muted mb-3 text-truncate"><%= flat.address %></p>
+            <p class="card-text text-dark mb-0">
+              <span class="fw-bold fs-5">€<%= flat.price_per_night %></span> <span class="text-muted">night</span>
+            </p>
+            <p class="text-muted small mt-1"><i class="fa-solid fa-user-group me-1"></i><%= flat.number_of_guests %> guests</p>
+          </div>
+          <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center px-4 pb-4 pt-0 mt-auto">
+            <%= link_to "View details", flat_path(flat), class: "btn btn-dark rounded-pill px-4 fw-medium" %>
+            <div class="d-flex gap-3">
+              <%= link_to edit_flat_path(flat), class: "text-secondary text-decoration-none action-icon", title: "Edit" do %>
+                <i class="fa-solid fa-pen"></i>
+              <% end %>
+              <%= link_to flat_path(flat), data: { turbo_method: :delete, turbo_confirm: "Delete this flat?" }, class: "text-danger text-decoration-none action-icon", title: "Remove" do %>
+                <i class="fa-solid fa-trash"></i>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+.flat-card {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+.flat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+.img-wrapper .card-img-top {
+  transition: transform 0.5s ease;
+}
+.flat-card:hover .img-wrapper .card-img-top {
+  transform: scale(1.08);
+}
+.action-icon {
+  transition: transform 0.2s, color 0.2s;
+}
+.action-icon:hover {
+  transform: scale(1.2);
+  color: #000 !important;
+}
+.text-danger.action-icon:hover {
+  color: #dc3545 !important;
+}
+</style>
